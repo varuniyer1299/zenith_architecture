@@ -30,7 +30,23 @@ Presentation (The UI): Contains BLoCs, Pages, and Widgets.
 
 Tech Stack & Tools
 
-CategoryLibrary/ToolPurposeState Managementflutter_blocPredictable state flow and event handling.Local DatabasehiveLightweight, lightning-fast NoSQL storage.NetworkingdioHTTP client with interceptors for logging and headers.Connectivityinternet_connection_checker_plusReal-time internet access verification.D.I.get_itService Locator for dependency management.UX/UIskeletonizerModern skeleton loading (shimmers).📦 
+Tech Stack & Architecture
+
+Core Framework & State
+
+flutter_bloc: Handles the "Zenith" predictable state flow via an Event-State bridge.
+
+get_it: High-performance Service Locator for decoupled Dependency Injection.
+
+Data & Networking
+Hive: Lightning-fast, NoSQL local storage for Offline-First capabilities.
+
+Dio: Robust HTTP client with custom interceptors for global error handling and logging.
+
+Internet Connection Checker Plus: Real-time monitoring to trigger local vs. remote data strategies.
+
+UI/UX Enhancements
+Skeletonizer: Provides a seamless transition from loading states to content using automatic shimmers.
 
 Getting Started
 

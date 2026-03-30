@@ -33,7 +33,7 @@ jobs:
 
       # Optional: Upload coverage reports to see them in GitHub
       - name: Upload Coverage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage/

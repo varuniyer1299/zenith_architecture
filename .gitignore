@@ -1,0 +1,52 @@
+#Flutter/Dart specific
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+
+#Desktop & Web Boilerplate
+bin/
+obj/
+test_driver/
+linux/flutter/ephemeral/
+windows/flutter/ephemeral/
+macos/Flutter/ephemeral/
+.plugin_screenshots/
+
+#Dependency & IDE folders
+.idea/
+.vscode/
+*.iml
+cmake-build-*/
+
+# Generated Code 
+# *.g.dart
+
+#Security & Env
+.env
+*.secret
+ios/Flutter/Generated.xcconfig
+android/key.properties
+local.properties
+**/*.keystore
+**/*.jks
+
+# Android build artifacts
+android/local.properties
+android/.gradle/
+android/app/debug/
+android/app/profile/
+android/app/release/
+
+# iOS build artifacts
+ios/.symlinks/
+ios/Pods/
+ios/Frameworks/
+ios/DerivedData/
+
+#macOS noise
+.DS_Store
+DerivedData/

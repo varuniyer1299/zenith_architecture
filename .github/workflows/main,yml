@@ -1,0 +1,39 @@
+name: Zenith CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.x.x' # Matches your project version
+          channel: 'stable'
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Generate Hive Adapters
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Static Analysis (Linter)
+        run: flutter analyze
+
+      - name: Run Unit Tests
+        run: flutter test --coverage
+
+      # Optional: Upload coverage reports to see them in GitHub
+      - name: Upload Coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage/

@@ -1,0 +1,9 @@
+targets:
+  $default:
+    builders:
+      hive_generator:
+        generate_for:
+          - lib/data/models/*.dart
+      source_gen|combining_builder:
+        generate_for:
+          - lib/data/models/*.dart

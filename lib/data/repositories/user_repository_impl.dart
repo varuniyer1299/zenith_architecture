@@ -29,14 +29,14 @@ class UserRepositoryImpl implements UserRepository {
         await localDataSource.cacheUser(remoteUser);
         
         // Return the Domain Entity
-        return Right(remoteUser);
+        return Right(remoteUser.toEntity());
       } on ServerException {
         return Left(ServerFailure());
       }
     } else {
       try {
         final localUser = await localDataSource.getLastUser();
-        return Right(localUser);
+        return Right(localUser.toEntity());
       } on CacheException {
         return Left(CacheFailure());
       }

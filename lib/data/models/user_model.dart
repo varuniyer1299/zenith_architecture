@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_initializing_formals, use_super_parameters
 import 'package:zenith_architecture/core/constants/hive_types.dart';
 
 import '../../domain/entities/user_entity.dart';
@@ -6,13 +7,28 @@ import 'package:hive_flutter/hive_flutter.dart';
 part 'user_model.g.dart';
 
 @HiveType(typeId: HiveTypes.userModel)
-class UserModel extends UserEntity {
+class UserModel {
+  @HiveField(0)
+  final int id;
+
+  @HiveField(1)
+  final String name;
+
+  @HiveField(2)
+  final String email;
+
+  @HiveField(3)
+  final String? profilePictureUrl;
+
+  @HiveField(4)
+  final bool isOfflineSynced;
+ 
   const UserModel({
-    @HiveField(0) required super.id,
-    @HiveField(1) required super.name,
-    @HiveField(2) required super.email,
-    @HiveField(3) required super.profilePictureUrl,
-    @HiveField(4) required super.isOfflineSynced,
+    required this.id,
+    required this.name,
+    required this.email,
+    this.profilePictureUrl,
+     this.isOfflineSynced = false,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -46,4 +62,14 @@ class UserModel extends UserEntity {
     isOfflineSynced: entity.isOfflineSynced,
   );
 }
+
+UserEntity toEntity() {
+    return UserEntity(
+      id: id, 
+      name: name,
+      email: email,
+      profilePictureUrl: profilePictureUrl,
+      isOfflineSynced: isOfflineSynced,
+    );
+  }
 }

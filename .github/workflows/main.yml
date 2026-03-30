@@ -16,7 +16,7 @@ jobs:
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.x.x' # Matches your project version
+          flutter-version: '3.4.1'
           channel: 'stable'
 
       - name: Install Dependencies
@@ -31,7 +31,6 @@ jobs:
       - name: Run Unit Tests
         run: flutter test --coverage
 
-      # Optional: Upload coverage reports to see them in GitHub
       - name: Upload Coverage
         uses: actions/upload-artifact@v4
         with:

@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.viyer.zenith_architecture" 
-    compileSdk = 34
+    compileSdk = 36
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

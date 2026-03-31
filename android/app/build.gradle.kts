@@ -5,6 +5,12 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+val envPath = System.getenv("ZENITH_KEYSTORE_PATH")
+val keystorePath = envPath ?: "../../secrets/zenith-upload-key.jks"
+
+// This print statement is your "eyes" inside the GitHub Action logs!
+println("CI/CD DEBUG: Using Keystore Path -> $keystorePath")
+
 android {
     namespace = "com.viyer.zenith_architecture" 
     compileSdk = 36
@@ -28,9 +34,6 @@ android {
 
     signingConfigs {
         create("release") {
-            // This pulls from my .env (Local) or GitHub Secrets (Cloud)
-            val keystorePath = System.getenv("ZENITH_KEYSTORE_PATH") ?: "../../secrets/zenith-upload-key.jks"
-            
             storeFile = file(keystorePath)
             storePassword = System.getenv("ZENITH_KEYSTORE_PASSWORD")
             keyAlias = System.getenv("ZENITH_KEY_ALIAS")

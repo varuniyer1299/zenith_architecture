@@ -1,0 +1,32 @@
+default_platform(:android)
+require 'fileutils'
+
+platform :android do
+  desc "Runs tests and builds a signed release APK"
+  lane :build_signed_release do
+    # 1. Clean and Fetch
+    Dir.chdir("../..") do
+      UI.message("Moving to project root: #{Dir.pwd}")
+      
+      sh("flutter pub get")
+      
+      # Runs the tests from the root where the 'test' folder actually lives
+      sh("flutter test")
+    end
+
+    # 3. Build the Release APK
+    begin
+      sh("flutter build apk --release")
+
+    #4 Create a distribution folder inside /android for easy access
+      FileUtils.mkdir_p('../../dist')
+      
+      # Copy the file (Ruby's version of cp)
+      FileUtils.cp('../../build/app/outputs/flutter-apk/app-release.apk', '../../dist/zenith-signed-release.apk')
+      
+      UI.success("Success! Signed APK is at android/dist/zenith-signed-release.apk")
+    rescue => ex
+      UI.error("Build failed: #{ex}")
+    end
+  end
+end

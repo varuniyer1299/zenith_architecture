@@ -1,0 +1,51 @@
+name: Android CI/CD
+
+on:
+  push:
+    branches: [ main, master ] # Triggers on push to main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Using Linux for the fastest build times
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Decode Keystore
+        run: |
+          mkdir -p secrets
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > secrets/zenith-upload-key.jks
+
+      - name: Install Ruby & Fastlane
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: android
+
+      - name: Run Fastlane Build
+        working-directory: android
+        env:
+          ZENITH_KEYSTORE_PATH: "../../../secrets/zenith-upload-key.jks"
+          ZENITH_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ZENITH_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ZENITH_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: bundle exec fastlane build_signed_release
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: zenith-release-apk
+          path: dist/*.apk # Grabs the APK from the root dist folder we set up

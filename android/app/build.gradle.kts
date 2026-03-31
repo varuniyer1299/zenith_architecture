@@ -1,39 +1,58 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    // This connects the file to your Flutter/Dart code
     id("dev.flutter.flutter-gradle-plugin")
 }
 
 android {
-    namespace = "com.viyer.zenith_architecture"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    namespace = "com.viyer.zenith_architecture" 
+    compileSdk = 34
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+   kotlinOptions {
+        jvmTarget = "17"
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.viyer.zenith_architecture"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        applicationId = "com.example.zenith"
         minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0.0"
+    }
+
+    signingConfigs {
+        create("release") {
+            // This pulls from my .env (Local) or GitHub Secrets (Cloud)
+            val keystorePath = System.getenv("ZENITH_KEYSTORE_PATH") ?: "../../secrets/zenith-upload-key.jks"
+            
+            storeFile = file(keystorePath)
+            storePassword = System.getenv("ZENITH_KEYSTORE_PASSWORD")
+            keyAlias = System.getenv("ZENITH_KEY_ALIAS")
+            keyPassword = System.getenv("ZENITH_KEY_PASSWORD")
+        }
     }
 
     buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+        getByName("release") {
+            // Tie the signing config we created above to the release build
+            signingConfig = signingConfigs.getByName("release")
+
+            isMinifyEnabled = false 
+            isShrinkResources = false
+            
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+
+        getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
@@ -41,4 +60,8 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    // Keep your existing dependencies here
 }

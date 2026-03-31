@@ -33,6 +33,7 @@ android/key.properties
 local.properties
 **/*.keystore
 **/*.jks
+/secrets/
 
 # Android build artifacts
 android/local.properties
@@ -40,6 +41,7 @@ android/.gradle/
 android/app/debug/
 android/app/profile/
 android/app/release/
+/dist/
 
 # iOS build artifacts
 ios/.symlinks/
